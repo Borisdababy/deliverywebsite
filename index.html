@@ -1,0 +1,196 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackWise - Package Tracking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .tracking-section {
+            background-image: url('images1.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center">
+                <img src="download.jpg" alt="TrackWise Logo" class="h-12">
+                <h1 class="text-2xl font-bold text-gray-800 ml-4">TrackWise</h1>
+            </div>
+            <nav class="space-x-6">
+                <a href="#" class="text-gray-600 hover:text-green-600">Home</a>
+                <a href="#" class="text-gray-600 hover:text-green-600">Services</a>
+                <a href="#" class="text-gray-600 hover:text-green-600">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="tracking-section text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-4">Track Your Package</h2>
+            <p class="text-lg mb-8">Enter your tracking number to get real-time updates on your shipment.</p>
+            <div class="max-w-md mx-auto">
+                <div class="flex items-center bg-white rounded-lg shadow-md">
+                    <input type="text" placeholder="Enter tracking number" class="flex-1 p-4 text-gray-800 rounded-l-lg focus:outline-none">
+                    <button class="bg-green-600 text-white px-6 py-4 rounded-r-lg hover:bg-green-700">Track</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container mx-auto px-4 py-16">
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Tracking Results</h2>
+        <div class="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto">
+            <div class="flex items-center mb-4">
+                <img src="van.jpg" alt="Package Image" class="w-24 h-24 rounded-lg mr-4">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800">Package #123456789</h3>
+                    <p class="text-gray-600">Status: completed</p>
+                </div>
+            </div>
+            <div class="border-t pt-4">
+                <p class="text-gray-600 mb-2"><strong>Last Update:</strong> August 27, 2025, 10:30 AM</p>
+                <p class="text-gray-600 mb-2"><strong>Location:</strong> Sorting Facility, New York, NY</p>
+                <p class="text-gray-600"><strong>Estimated Delivery:</strong> August 30, 2025</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-gray-50 py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Why Choose TrackWise?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <img src="track.jpg" alt="Feature 1" class="w-32 h-32 mx-auto mb-4 rounded-full">
+                    <h3 class="text-xl font-semibold text-gray-800">Real-Time Tracking</h3>
+                    <p class="text-gray-600">Get instant updates on your package's location and status.</p>
+                </div>
+                <div class="text-center">
+                    <img src="global.jpg" alt="Feature 2" class="w-32 h-32 mx-auto mb-4 rounded-full">
+                    <h3 class="text-xl font-semibold text-gray-800">Global Coverage</h3>
+                    <p class="text-gray-600">Track shipments worldwide with our extensive network.</p>
+                </div>
+                <div class="text-center">
+                    <img src="secure.jpg" alt="Feature 3" class="w-32 h-32 mx-auto mb-4 rounded-full">
+                    <h3 class="text-xl font-semibold text-gray-800">Secure & Reliable</h3>
+                    <p class="text-gray-600">Your data is safe with our advanced security measures.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <img src="https://via.placeholder.com/150x50.png?text=TrackWise+Logo" alt="TrackWise Logo" class="h-10 mb-4">
+                    <p class="text-gray-400">TrackWise provides reliable and secure package tracking solutions worldwide.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Services</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <p class="text-gray-400">Email: Globalpetsdeliveryexpress@gmail.com</p>
+                    <p class="text-gray-400">Phone: +1 404 410 7114</p>
+                    <p class="text-gray-400">Address: 123 Logistics Ave, New York, NY</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-4 text-center">
+                <p class="text-gray-400">&copy; 2025 TrackWise. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
